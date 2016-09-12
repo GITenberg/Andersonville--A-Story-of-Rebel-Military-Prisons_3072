@@ -1,0 +1,61 @@
+sudo: required
+dist: trusty
+language: ruby
+
+before_install:
+before_install:
+- gem install asciidoctor -v 1.5.2
+- gem install tilt
+- sudo pip install git+https://github.com/gitenberg-dev/gitberg
+- sudo pip install pillow
+- sudo pip install cssutils
+- sudo pip install docutils
+- sudo pip install roman
+- sudo pip install git+https://github.com/gitenberg-dev/pg-epubmaker
+script:
+- VERSION=`ruby -e "require 'yaml'; meta = YAML.load_file('metadata.yaml'); puts meta['_version'];"`
+- git clone https://github.com/gitenberg-dev/asciidoctor-htmlbook.git
+- sudo pip install -r asciidoctor-htmlbook/gitberg-machine/requirements.txt
+
+- /usr/bin/python -c "from gitenberg import travis; travis.build_epub()"
+- ebook-convert book.epub book.mobi
+- xvfb-run ebook-convert book.epub book.pdf
+branches:
+  only:
+  - master
+notifications:
+  webhooks:
+    urls:
+      - https://unglue.it/api/travisci/webhook
+    on_success: always
+    on_failure: never
+    on_start: never
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: v9XxNBdJUdoBRyO0H7MEscTC1vLfbpcD0V7IqUriiAQ6TmHBMaJ9VWT3aUkCcaH95JQHsU02MbNwxIHII68TomBI/n6b4Z8GsJ8OinHPu2GMvg6rh1SA3OenJINZGIUh4LULQDFNgJRvytVYX+owwSpSypysmY6eJS+Yvw+UqX6dQa+xsLCq/wp5ptkoeJAKqOq3u+RbB15yq1n8C49KYs3s06qApNlz1lUS/TONx07+lUpH8d+u543D2/ofnD20JmU3Q8KTbaosUN9K7G8Wpi4wpC4LIEG8CodBaGIHRDDFu7sdwjlFZGfmaGRcWwEwZ9Ao25mP1MuQZEu7KUKHLE8SzZnGr4IFGcuQze+wCk7ssxqHz66J/1tgpcAYuWFpod7WPpEGRLmH2FMGpcNKyB+tLEnaQKcQV06W3mgLxWpDE3HQ/3iyRV81EWJz2rnl6AFS7R/jfq2wlfwi2+mtf4jWAVNT3cYe9LOahlhjh3cwEhv/ZAKVxcHY2+ze6qqE1LjW528Epz9ZCJPLY3ZHUKXPsWad9lUcuc9iq1V171mpuw7vATis2lc8Rrz8IxEON+5OWCRj9Vo3Abd2vbhKhisiDdsmYBaZ61E19fyJ7GqxUHijMHm+9tRyPHTzVWWDJUaRRZDoKMPBrcOYcUcBGJQ5Hx1iLdIPAGql6ri5r7k=
+  file:
+    - book.epub
+    - book.mobi
+    - book.pdf
+  "on":
+    repo: GITenberg/Andersonville--A-Story-of-Rebel-Military-Prisons_3072
+addons:
+  apt:
+    packages:
+    - xsltproc
+    - xvfb
+    - calibre
+    - python-pip
+    - git
+    - python-dev
+    - libjpeg-dev
+    - libpng-dev
+    - libfreetype6
+    - libfreetype6-dev
+    - zlib1g-dev
+    - python-lxml
+    - libxml2-dev
+    - libxslt1-dev
+    - tidy
