@@ -1,10 +1,8 @@
 _repo: Andersonville--A-Story-of-Rebel-Military-Prisons_3072
-_version: 0.1.0
+_version: 0.2.0
 covers:
 - cover_type: archival
-  image_path: 3072/3072-h/images/cover.jpg
-  rights: Public domain in the USA.
-  rights_url: http://creativecommons.org/about/pdm
+  image_path: 3072-h/images/bookcover.jpg
 creator:
   author:
     agent_name: McElroy, John
@@ -13,6 +11,8 @@ creator:
     gutenberg_agent_id: '1015'
     url: http://www.gutenberg.org/2009/agents/1015
 description: ''
+edition_identifiers:
+  edition_id: http://www.gutenberg.org/ebooks/3072#Andersonville--A-Story-of-Rebel-Military-Prisons
 gutenberg_bookshelf: US Civil War
 gutenberg_issued: '2004-06-01'
 gutenberg_type: Text
